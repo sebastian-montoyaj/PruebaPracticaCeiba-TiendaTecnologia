@@ -1,23 +1,39 @@
+<!-- Fichero encargado de conectar el aplicativo con la base de datos y que define el conjunto de entidades a gestionar/administrar en la misma BD -->
+
 <?xml version="1.0" encoding="UTF-8"?>
-<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+
+<!-- Etiqueta para establecer la BD y sus configuraciones/propiedades -->
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
-                                 http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+             http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
+             version="2.1">
+    
+    <!-- Primero, se establece el nombre de la BD y con RESOURCE_LOCAL se indica que somos responsables de la creacion y seguimiento de las entidades -->
     <persistence-unit name="tienda" transaction-type="RESOURCE_LOCAL">
-
+    	
+    	<!-- A continuacion, se establecen cuales son las entidades a mapear en la BD -->
         <class>persistencia.entitad.ProductoEntity</class>
         <class>persistencia.entitad.GarantiaExtendidaEntity</class>
-
+        
+        <!-- Luego, se procede a: -->
         <properties>
-            <!-- Configuring JDBC properties -->
+        	
+            <!-- Definir en donde quedara la base de datos y cual es el driver (controlador) a utilizar para la comunicacion con la misma -->
             <property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:test"/>
             <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
 
-            <!-- Hibernate properties -->
+            <!-- Finalmente, se establece que:
+            		1. El dialecto (o variante especifica de SQL) a utilizar por hibernate es la correspondiente a una BD H2
+            		2. Cada vez que se ejecute o inicie el aplicativo entonces se cargara el esquema definido en la BD y se destruiran los datos previos
+            		y 3. Se habilita el registro por consola de las instrucciones SQL que se vayan ejecutando (Esto ayuda a la depuracion del app, pero es bueno deshabilitar esta opcion cuando el app pasa a produccion)
+            -->
             <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
             <property name="hibernate.hbm2ddl.auto" value="create"/>
             <property name="hibernate.show_sql" value="true"/>
 
         </properties>
+        
     </persistence-unit>
+    
 </persistence>
